@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANISH SOCIAL</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>MANISH SOCIAL</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="welcome-popup" class="popup">
+        <input type="text" id="username-input" placeholder="Enter your name">
+        <button id="submit-username">Submit</button>
+    </div>
+    
+    <div id="welcome-message" class="hidden"></div>
+    <div class="posts-container" id="posts-container"></div>
+
+    <script>
+        const users = [
+            { name: "Manish", animal: "Penguin", img: "https://images.unsplash.com/photo-1543040523-8d2000b3b9e1", info: "Penguins are flightless birds that live primarily in the Southern Hemisphere." },
+            { name: "Tanmay", animal: "Tiger", img: "https://images.unsplash.com/photo-1574158622687-2fe7b3a1c0ac", info: "Tigers are the largest species of cat and can weigh up to 670 pounds." },
+            { name: "Krishna", animal: "Lion", img: "https://images.unsplash.com/photo-1555685811-2783042f1f4a", info: "Lions are known as the kings of the jungle and live in prides." },
+            { name: "Prashant", animal: "Goat", img: "https://images.unsplash.com/photo-1555685812-6f8c1b5a0d2c", info: "Goats are known for their intelligence and curious nature." },
+            { name: "Sizuka", animal: "Elephant", img: "https://images.unsplash.com/photo-1518799664154-0e0f0224a40b", info: "Elephants are the largest land animals and are known for their intelligence and social behavior." }
+        ];
+
+        document.getElementById('submit-username').addEventListener('click', function() {
+            const username = document.getElementById('username-input').value;
+            if (username) {
+                document.getElementById('welcome-popup').style.display = 'none';
+                document.getElementById('welcome-message').innerText = `Welcome ${username} ✔️`;
+                document.getElementById('welcome-message').classList.remove('hidden');
+                loadPosts();
+            }
+        });
+
+        function loadPosts() {
+            const postsContainer = document.getElementById('posts-container');
+
+            users.forEach(user => {
+                const postDiv = document.createElement('div');
+                postDiv.classList.add('post');
+                postDiv.innerHTML = `
+                    <h2>${user.name}'s Post ✔️</h2>
+                    <img src="${user.img}" alt="${user.animal}">
+                    <p>Animal: ${user.animal}</p>
+                    <p>${user.info}</p>
+                    <div>
+                        <button class="like">Like</button>
+                        <span class="likes">0</span>
+                        <button class="share">Share</button>
+                        <button class="follow">Follow</button>
+                    </div>
+                `;
+
+                let likesCount = 0;
+
+                postDiv.querySelector('.like').addEventListener('click', function() {
+                    likesCount++;
+                    postDiv.querySelector('.likes').innerText = likesCount;
+                });
+
+                postDiv.querySelector('.share').addEventListener('click', function() {
+                    alert(`Shared ${user.animal} post!`);
+                });
+
+                postDiv.querySelector('.follow').addEventListener('click', function() {
+                    alert(`You followed ${user.name}`);
+                });
+
+                postsContainer.appendChild(postDiv);
+            });
+        }
+    </script>
+</body>
+</html>
